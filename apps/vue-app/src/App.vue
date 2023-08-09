@@ -5,7 +5,7 @@ import { ButtonStyles, CardStyles, Colors } from "ui";
 
 <template>
     <h1 className="text-3xl font-bold underline bg-lime">Hello Hiberus from Vue!</h1>
-    <button type="button" :class="ButtonStyles({ color: Colors.black })">
+    <button type="button" :class="ButtonStyles({ color: Colors.orange })">
         +
     </button>
 
