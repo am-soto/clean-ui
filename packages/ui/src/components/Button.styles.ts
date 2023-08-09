@@ -1,6 +1,8 @@
-import { Colors } from "../types";
+import { BgColorsClass, Colors } from "../constants";
 
-export const ButtonStyles = ({ color = Colors.BLACK }: { color?: Colors }) =>
-  `rounded-full w-10 h-10 ${
-    color === Colors.BLACK ? "text-white" : "text-black"
-  } bg-${color} border-none`;
+export const ButtonStyles = ({ color = Colors.black }: { color?: string }) => {
+  return `rounded-full w-10 h-10 ${
+    color === "black" ? "text-white" : "text-black"
+  } 
+  ${BgColorsClass[color]} border-none`;
+};

@@ -1,2 +1,2 @@
 export * from "./components";
-export { Colors } from "./types";
+export { Colors } from "./constants";

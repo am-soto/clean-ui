@@ -5,14 +5,13 @@ import { ButtonStyles, CardStyles, Colors } from "ui";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <h1 className="text-3xl font-bold underline bg-orange">
-      Hello Hiberus from React!
-    </h1>
-    <button type="button" className={ButtonStyles({ color: Colors.BLACK })}>
+    <h1 className="text-3xl font-bold underline">Hello Hiberus from React!</h1>
+
+    <button type="button" className={ButtonStyles({ color: Colors.black })}>
       +
     </button>
 
-    <div className={CardStyles({ color: Colors.LIME })}>
+    <div className={CardStyles({ color: Colors.red })}>
       <div className="h-full overflow-auto">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

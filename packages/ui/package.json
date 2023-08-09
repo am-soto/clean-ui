@@ -5,8 +5,10 @@
   "types": "./index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\"",
-    "generate:component": "turbo gen react-component"
+    "lint": "eslint \"**/*.ts*\""
+    },
+  "dependencies": {
+    "config-tailwindcss": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
@@ -15,6 +17,9 @@
     "eslint-config-custom": "*",
     "react": "^17.0.2",
     "tsconfig": "*",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3"
   }
 }

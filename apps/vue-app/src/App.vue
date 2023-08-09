@@ -5,11 +5,11 @@ import { ButtonStyles, CardStyles, Colors } from "ui";
 
 <template>
     <h1 className="text-3xl font-bold underline bg-lime">Hello Hiberus from Vue!</h1>
-    <button type="button" :class="ButtonStyles({ color: Colors.BLACK })">
+    <button type="button" :class="ButtonStyles({ color: Colors.black })">
         +
     </button>
 
-    <div :class="CardStyles({ color: Colors.RED })">
+    <div :class="CardStyles({ color: Colors.red })">
         <div class="h-full overflow-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
