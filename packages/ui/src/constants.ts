@@ -9,11 +9,13 @@ export const TailwindCSSColors = {
 
 type ColorEnum = keyof typeof TailwindCSSColors;
 
-export const Colors: Record<ColorEnum, string> = {
+export type Color = Record<ColorEnum, string>;
+
+export const Colors: Color = {
   ...Object.keys(TailwindCSSColors).reduce((acc, key) => {
     acc[key as ColorEnum] = key;
     return acc;
-  }, {} as Record<ColorEnum, string>),
+  }, {} as Color),
 };
 
 // IMPORTANTE: añadir nuevas clases para nuevos colores de la constante `TailwindCSSColors`
