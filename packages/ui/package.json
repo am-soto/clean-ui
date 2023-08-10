@@ -7,9 +7,6 @@
   "scripts": {
     "lint": "eslint \"**/*.ts*\""
     },
-  "dependencies": {
-    "config-tailwindcss": "*"
-  },
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

@@ -24,11 +24,17 @@
 <script lang="ts">
 import { Color, Colors } from "ui";
 import { defineComponent } from 'vue';
-
 import Button from './components/Button.vue';
 import Card from './components/Card.vue';
+import { GetTasksUseCase } from "core";
+
 export default defineComponent({
     name: 'App',
+    data() {
+        return {
+            tasks: [] as any
+        }
+    },
     components: {
         Button,
         Card
@@ -36,7 +42,17 @@ export default defineComponent({
     computed: {
         colors(): Color {
             return Colors;
-        },
+        }
     },
+    methods: {
+        async fetchData () {
+            const useCase = new GetTasksUseCase();
+            this.tasks = await useCase.execute();
+            console.log("fetching", this.tasks);
+        }
+    },
+    created() {
+        this.fetchData();
+    }
 })
 </script>

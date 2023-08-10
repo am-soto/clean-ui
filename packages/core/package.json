@@ -1,18 +1,18 @@
 {
   "name": "core",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
   "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "vite build"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "typescript": "^4.5.2",
     "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.5.1",
     "vitest": "^0.34.1"
   },
   "dependencies": {

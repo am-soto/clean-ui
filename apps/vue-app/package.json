@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "config-tailwindcss": "*",
+    "core": "*",
     "ui": "*"
   },
   "devDependencies": {
