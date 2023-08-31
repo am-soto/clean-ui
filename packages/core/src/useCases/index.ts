@@ -1,3 +1,2 @@
-import { GetTasksUseCase } from "./getTasks.useCase";
-
-export { GetTasksUseCase };
+export { GetTasksUseCase } from "./getTasks.useCase";
+export { PostTasksUseCase } from "./postTasks.useCase";

@@ -1,4 +1,7 @@
-import { GetTasksRepository } from "./getTasks.repository";
-import { GetUserRepository } from "./getUser.repository";
-
-export { GetTasksRepository, GetUserRepository };
+export {
+  GetTasksRepository,
+  DeleteTasksRepository,
+  PostTasksRepository,
+  PatchTasksRepository,
+} from "./tasks";
+export { GetUserRepository } from "./getUser.repository";
