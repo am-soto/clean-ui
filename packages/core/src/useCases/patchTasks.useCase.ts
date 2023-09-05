@@ -1,17 +1,19 @@
 import { Task } from "../domain";
+import { Status } from "../domain/task";
 import { GetUserRepository, PatchTasksRepository } from "../infraestructure";
 
-export class PostTasksUseCase {
-  async execute(): Promise<Task[]> {
+interface PatchTaskRequest {
+  description?: string;
+  status?: Status;
+  title?: string;
+  id: number;
+  user_id?: number;
+}
+export class PatchTasksUseCase {
+  async execute(props: PatchTaskRequest): Promise<Task[]> {
     const patchTasksRepository = new PatchTasksRepository();
     const getUserRepository = new GetUserRepository();
-    const tasks = await patchTasksRepository.execute({
-      id: 0,
-      color: "red",
-      description: "description",
-      status: "todo",
-      title: "Title",
-    });
+    const tasks = await patchTasksRepository.execute({ ...props });
 
     return Promise.all(
       tasks.map(async (t) => {

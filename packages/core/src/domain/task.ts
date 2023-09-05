@@ -12,7 +12,7 @@ export class Task {
     public readonly color: string,
     public readonly createdAt: Date,
     public readonly user: User | null
-  ) { }
+  ) {}
 
   static create(
     id: number,
@@ -23,8 +23,6 @@ export class Task {
     createdAt: string,
     user: User | null
   ) {
-    if (title.length === 0) throw new DomainException();
-
     return new Task(
       id,
       title,

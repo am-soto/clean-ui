@@ -8,13 +8,12 @@ import {
 import { Database } from "../../types/supabase";
 import { User } from "../../domain/user";
 
-// TODO: mover
 interface PatchTaskRequest {
-  color?: string;
   description?: string;
   status?: string;
   title?: string;
   id: number;
+  user_id?: number;
 }
 
 export class PatchTasksRepository

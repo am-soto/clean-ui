@@ -8,22 +8,18 @@ import {
 import { Database } from "../../types/supabase";
 import { User } from "../../domain/user";
 
-// TODO: mover
 interface PostTaskRequest {
   color: string;
-  description: string;
-  status: string;
-  title: string;
 }
 
 export class PostTasksRepository
   implements HttpRepository<PostTaskRequest, Task[]>
 {
-  async execute(props: PostTaskRequest): Promise<Task[]> {
+  async execute({ color }: PostTaskRequest): Promise<Task[]> {
     try {
       const { data } = await supabase
         .from("task")
-        .insert([{ ...props }])
+        .insert([{ color, description: "", status: "todo", title: "" }])
         .select();
       return PostTaskDTO.fromJSON(data);
     } catch (error) {

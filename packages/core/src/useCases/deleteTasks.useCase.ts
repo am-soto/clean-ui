@@ -1,10 +1,19 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { DeleteTasksRepository } from "../infraestructure";
 
-export class PostTasksUseCase {
-  async execute(): Promise<PostgrestError | null> {
-    const postTasksRepository = new DeleteTasksRepository();
-    const tasks = await postTasksRepository.execute({ id: "0" });
-    return tasks;
+type DeleteInfoResponse = {
+  success: boolean;
+  message: string;
+};
+
+export class DeleteTasksUseCase {
+  async execute(id: number): Promise<DeleteInfoResponse | null> {
+    const deleteTasksRepository = new DeleteTasksRepository();
+    try {
+      await deleteTasksRepository.execute({ id });
+      return { success: true, message: "OK" };
+    } catch (error) {
+      return { success: false, message: "Error" };
+    }
   }
 }
