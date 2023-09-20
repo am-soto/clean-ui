@@ -16,8 +16,16 @@ const CardFooter = ({
 
 const CardContent = ({
   children,
+  className,
   ...props
-}: ButtonHTMLAttributes<HTMLDivElement>) => <p {...props}>{children}</p>;
+}: ButtonHTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={`${className} h-full line-clamp-[7] hover:line-clamp-none `}
+    {...props}
+  >
+    {children}
+  </div>
+);
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ color = Colors.orange, ...props }, ref) => (

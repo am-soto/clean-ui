@@ -19,7 +19,14 @@ export class PostTasksRepository
     try {
       const { data } = await supabase
         .from("task")
-        .insert([{ color, description: "", status: "todo", title: "" }])
+        .insert([
+          {
+            color,
+            description: "Task description",
+            status: "todo",
+            title: "New Task",
+          },
+        ])
         .select();
       return PostTaskDTO.fromJSON(data);
     } catch (error) {
