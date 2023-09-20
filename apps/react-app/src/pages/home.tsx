@@ -14,7 +14,7 @@ import {
   PostTasksUseCase,
   Task,
 } from "core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Colors } from "ui";
 
 const useCasePost = new PostTasksUseCase();
@@ -45,12 +45,29 @@ export const Home = () => {
     getData();
   }, []);
 
+  // TODO: Cambiar editable tag por input transparente
   const editTask = async (text: string, id: number, key: string) => {
     await useCasePatch.execute({
       [key]: text,
       id,
     });
   };
+
+  // TODO: Eliminar tareas
+
+  const debounce = (func: any) => {
+    let timer;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 500);
+    };
+  };
+
+  const debounceEditTask = useCallback(debounce(editTask), []);
 
   return (
     <div className="flex h-screen divide-x">
@@ -82,24 +99,8 @@ export const Home = () => {
                 <li key={t.id}>
                   <Card color={t.color}>
                     <CardContent>
-                      <h4
-                        contentEditable={true}
-                        dangerouslySetInnerHTML={{ __html: t.title }}
-                        onInput={async (event) =>
-                          editTask(event.currentTarget.innerHTML, t.id, "title")
-                        }
-                      />
-                      <p
-                        contentEditable={true}
-                        dangerouslySetInnerHTML={{ __html: t.description }}
-                        onInput={async (event) =>
-                          editTask(
-                            event.currentTarget.innerHTML,
-                            t.id,
-                            "description"
-                          )
-                        }
-                      />
+                      <input defaultValue={t.title} onChange={({ currentTarget }) => debounceEditTask(currentTarget.value, t.id, "title")} />
+                      <textarea defaultValue={t.description} onChange={({ currentTarget }) => debounceEditTask(currentTarget.value, t.id, "description")} />
                     </CardContent>
                     <CardFooter className="pt-5">
                       {t.createdAt.toLocaleString("ES")}
