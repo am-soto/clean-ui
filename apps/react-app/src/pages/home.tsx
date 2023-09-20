@@ -9,6 +9,7 @@ import "../styles/globals.css";
 import { useFilterNotes } from "../hooks/useFilterNotes";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
+  DeleteTasksUseCase,
   GetTasksUseCase,
   PatchTasksUseCase,
   PostTasksUseCase,
@@ -16,11 +17,17 @@ import {
 } from "core";
 import { useCallback, useEffect, useState } from "react";
 import { Colors } from "ui";
+import { debounce } from "../heplers/debounce";
+import "./loader.css";
 
 const useCasePost = new PostTasksUseCase();
 const useCasePatch = new PatchTasksUseCase();
+const useCaseDelete = new DeleteTasksUseCase();
+const useCaseGet = new GetTasksUseCase();
 
 export const Home = () => {
+  const [isLoadingDelete, setLoadingDelete] = useState(false);
+  const [currentDeleteIndex, setCurrentDeleteIndex] = useState<number | null>();
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const { searchedTasks, filterNotes } = useFilterNotes(tasks);
@@ -38,8 +45,7 @@ export const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const useCase = new GetTasksUseCase();
-      const response = await useCase.execute();
+      const response = await useCaseGet.execute();
       setTasks(response);
     };
     getData();
@@ -53,21 +59,19 @@ export const Home = () => {
     });
   };
 
-  // TODO: Eliminar tareas
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceEditTask = useCallback(debounce(editTask), [editTask]);
 
-  const debounce = (func: any) => {
-    let timer;
-    return function (...args) {
-      const context = this;
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = null;
-        func.apply(context, args);
-      }, 500);
-    };
+  const deleteTask = async (id: number, index: number) => {
+    setLoadingDelete(true);
+    setCurrentDeleteIndex(index);
+    await useCaseDelete.execute(id);
+    const response = await useCaseGet.execute();
+    setTasks(response);
+
+    setCurrentDeleteIndex(null);
+    setLoadingDelete(false);
   };
-
-  const debounceEditTask = useCallback(debounce(editTask), []);
 
   return (
     <div className="flex h-screen divide-x">
@@ -95,15 +99,56 @@ export const Home = () => {
         <ul className="flex flex-wrap gap-4 py-2 overflow-auto " ref={parent}>
           {searchedTasks.length ? (
             searchedTasks
-              .map((t) => (
-                <li key={t.id}>
+              .map((t, index) => (
+                <li key={t.id} className="relative">
+                  {/* Overlay de carga */}
+                  {isLoadingDelete && index === currentDeleteIndex && (
+                    <div className="absolute z-50 flex items-center justify-center w-full h-full bg-black opacity-50 rounded-2xl">
+                      <div className="delete-spinner" />
+                    </div>
+                  )}
                   <Card color={t.color}>
                     <CardContent>
-                      <input defaultValue={t.title} onChange={({ currentTarget }) => debounceEditTask(currentTarget.value, t.id, "title")} />
-                      <textarea defaultValue={t.description} onChange={({ currentTarget }) => debounceEditTask(currentTarget.value, t.id, "description")} />
+                      <input
+                        className="w-full text-xl font-semibold bg-transparent focus:outline-none"
+                        autoFocus
+                        defaultValue={t.title}
+                        onChange={({ currentTarget }) =>
+                          debounceEditTask(currentTarget.value, t.id, "title")
+                        }
+                      />
+                      <textarea
+                        className="w-full h-full bg-transparent resize-none focus:outline-none"
+                        defaultValue={t.description}
+                        onChange={({ currentTarget }) =>
+                          debounceEditTask(
+                            currentTarget.value,
+                            t.id,
+                            "description"
+                          )
+                        }
+                      />
                     </CardContent>
-                    <CardFooter className="pt-5">
+                    <CardFooter className="flex items-end justify-between font-medium pt-7">
                       {t.createdAt.toLocaleString("ES")}
+                      <button
+                        onClick={() => deleteTask(t.id, index)}
+                        className="flex items-center justify-center w-8 h-8 transition-all duration-100 ease-in-out scale-100 bg-white rounded-full hover:border hover:border-black hover:scale-105"
+                      >
+                        <svg
+                          width="24"
+                          height="24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M3 6h18" />
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        </svg>
+                      </button>
                     </CardFooter>
                   </Card>
                 </li>

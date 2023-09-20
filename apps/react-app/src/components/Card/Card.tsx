@@ -19,10 +19,7 @@ const CardContent = ({
   className,
   ...props
 }: ButtonHTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={`${className} h-full line-clamp-[7] hover:line-clamp-none `}
-    {...props}
-  >
+  <div className={`${className} h-full`} {...props}>
     {children}
   </div>
 );

@@ -1,4 +1,4 @@
 import { BgColorsClass, Colors } from "../constants";
 
 export const CardStyles = ({ color = Colors.orange }: { color?: string }) =>
-  `rounded-2xl w-[250px] p-4 text-black ${BgColorsClass[color]} border-none shadow-md min-h-[250px] h-[250px] flex flex-col hover:h-full transition-all ease-in-out duration-200`;
+  `rounded-2xl w-[250px] p-4 text-black ${BgColorsClass[color]} border-none shadow-md min-h-[250px] h-[250px] flex flex-col`;
