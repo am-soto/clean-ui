@@ -133,7 +133,7 @@ export const Home = () => {
                       {t.createdAt.toLocaleString("ES")}
                       <button
                         onClick={() => deleteTask(t.id, index)}
-                        className="flex items-center justify-center w-8 h-8 transition-all duration-100 ease-in-out scale-100 bg-white rounded-full hover:border hover:border-black hover:scale-105"
+                        className="flex items-center justify-center w-8 h-8 transition-all duration-100 ease-in-out scale-100 bg-white rounded-full hover:shadow-lg hover:border-black hover:scale-105"
                       >
                         <svg
                           width="24"
