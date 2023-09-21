@@ -1,3 +1,3 @@
 export { Button } from "./Button";
-export { Card, CardContent, CardFooter } from "./Card";
+export { Card } from "./Card";
 export { SearchBar } from "./SearchBar";
