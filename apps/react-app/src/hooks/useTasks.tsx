@@ -8,15 +8,15 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "../helpers/debounce";
 
-export const useTasks = () => {
-  const useCasePost = new PostTasksUseCase();
-  const useCasePatch = new PatchTasksUseCase();
-  const useCaseDelete = new DeleteTasksUseCase();
-  const useCaseGet = new GetTasksUseCase();
+const useCasePost = new PostTasksUseCase();
+const useCasePatch = new PatchTasksUseCase();
+const useCaseDelete = new DeleteTasksUseCase();
+const useCaseGet = new GetTasksUseCase();
 
-  const [filter, setFilter] = useState(""); 
+export const useTasks = () => {
+  const [filter, setFilter] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [focusNew, setFocusNew] = useState(false); 
+  const [focusNew, setFocusNew] = useState(false);
 
   const getTasks = () => {
     return tasks
@@ -27,8 +27,8 @@ export const useTasks = () => {
           task.user?.username.toLowerCase().includes(filter.toLowerCase()) ||
           task.status.toLowerCase().includes(filter.toLowerCase())
       )
-      .sort((a, b) => a.id > b.id ? -1 : 1);
-  }
+      .sort((a, b) => (a.id > b.id ? -1 : 1));
+  };
 
   const createTask = async (color: string) => {
     const task = await useCasePost.execute(color);
@@ -44,10 +44,9 @@ export const useTasks = () => {
     getData();
   }, []);
 
-  // TODO: Cambiar editable tag por input transparente
   const editTask = async (task: Task) => {
     await useCasePatch.execute({
-      ...task
+      ...task,
     });
   };
 
@@ -63,7 +62,14 @@ export const useTasks = () => {
   const updateFilter = (filter: string) => {
     setFilter(filter);
     setFocusNew(false);
-  }
+  };
 
-  return { focusNew, getTasks, createTask, deleteTask, updateFilter, updateTask: debounceEditTask };
+  return {
+    focusNew,
+    getTasks,
+    createTask,
+    deleteTask,
+    updateFilter,
+    updateTask: debounceEditTask,
+  };
 };

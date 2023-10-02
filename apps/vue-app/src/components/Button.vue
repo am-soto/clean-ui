@@ -1,5 +1,5 @@
 <template>
-    <button :class="StyleClass" @click="onClick">
+    <button :class="StyledClass">
         <slot />
     </button>
 </template>
@@ -19,14 +19,8 @@ export default defineComponent({
     },
 
     computed: {
-        StyleClass(): string {
+        StyledClass(): string {
             return `${ButtonStyles({ color: this.color })}`;
-        },
-    },
-
-    methods: {
-        onClick(): void {
-            this.$emit('click');
         },
     },
 });

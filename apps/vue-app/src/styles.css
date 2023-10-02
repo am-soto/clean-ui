@@ -1,3 +1,48 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+      @apply text-black;
+    }
+    h1 {
+      @apply mb-3 text-2xl font-bold md:mb-7 md:text-3xl;
+    }
+    h2 {
+      @apply mb-4 text-xl font-bold md:mb-4 md:text-2xl;
+    }
+    h3 {
+      @apply mb-2 text-lg font-medium md:text-xl;
+    }
+    h4 {
+      @apply text-base font-semibold md:text-lg;
+    }
+    a {
+      @apply underline;
+    }
+    p {
+      @apply text-sm md:text-base;
+    }
+  }
+
+
+  /* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 50px;
+  border: 1px solid lightgray;
+}
+
