@@ -1,5 +1,5 @@
 import { Task } from "core";
-import { ButtonHTMLAttributes, forwardRef, useState } from "react";
+import { ButtonHTMLAttributes, forwardRef, useEffect, useState } from "react";
 import {
   ButtonDeleteStyles,
   CardStyles,
@@ -17,10 +17,16 @@ type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ task, onValueChange, onDelete, focus, ...props }, ref) => {
     const [deleting, setDeleting] = useState(false);
+    const [title, setTitle] = useState(task.title);
+    const [description, setDescription] = useState(task.description);
     const onClickDelete = () => {
       setDeleting(true);
       onDelete(task);
     };
+    useEffect(() => {
+      setTitle(task.title);
+      setDescription(task.description);
+    }, [task]);
     return (
       <div className="relative">
         {/* Overlay de carga */}
@@ -31,23 +37,25 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             <input
               className={InputStyles}
               autoFocus={focus}
-              defaultValue={task.title}
-              onChange={({ currentTarget }) =>
+              value={title}
+              onChange={({ currentTarget }) => {
+                setTitle(currentTarget.value);
                 onValueChange({
                   ...task,
                   title: currentTarget.value,
-                })
-              }
+                });
+              }}
             />
             <textarea
               className={TextareaStyles}
-              defaultValue={task.description}
-              onChange={({ currentTarget }) =>
+              value={description}
+              onChange={({ currentTarget }) => {
+                setDescription(currentTarget.value);
                 onValueChange({
                   ...task,
                   description: currentTarget.value,
-                })
-              }
+                });
+              }}
             />
           </div>
 

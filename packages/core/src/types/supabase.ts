@@ -17,6 +17,7 @@ export interface Database {
           id: number
           status: string
           title: string
+          updated_at: string | null
           user_id: number | null
         }
         Insert: {
@@ -26,6 +27,7 @@ export interface Database {
           id?: number
           status: string
           title: string
+          updated_at?: string | null
           user_id?: number | null
         }
         Update: {
@@ -35,6 +37,7 @@ export interface Database {
           id?: number
           status?: string
           title?: string
+          updated_at?: string | null
           user_id?: number | null
         }
         Relationships: [

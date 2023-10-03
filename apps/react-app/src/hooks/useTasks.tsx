@@ -3,6 +3,7 @@ import {
   GetTasksUseCase,
   PatchTasksUseCase,
   PostTasksUseCase,
+  SubscribeTasksRealtimeUseCase,
   Task,
 } from "core";
 import { useCallback, useEffect, useState } from "react";
@@ -12,6 +13,7 @@ const useCasePost = new PostTasksUseCase();
 const useCasePatch = new PatchTasksUseCase();
 const useCaseDelete = new DeleteTasksUseCase();
 const useCaseGet = new GetTasksUseCase();
+const useCaseGetRealtime = new SubscribeTasksRealtimeUseCase();
 
 export const useTasks = () => {
   const [filter, setFilter] = useState("");
@@ -22,19 +24,51 @@ export const useTasks = () => {
     return tasks
       .filter(
         (task) =>
-          task.title.toLowerCase().includes(filter.toLowerCase()) ||
-          task.description.toLowerCase().includes(filter.toLowerCase()) ||
-          task.user?.username.toLowerCase().includes(filter.toLowerCase()) ||
-          task.status.toLowerCase().includes(filter.toLowerCase())
+          String(task.title).toLowerCase().includes(filter.toLowerCase()) ||
+          String(task.description)
+            .toLowerCase()
+            .includes(filter.toLowerCase()) ||
+          String(task.user?.username)
+            .toLowerCase()
+            .includes(filter.toLowerCase()) ||
+          String(task.status).toLowerCase().includes(filter.toLowerCase())
       )
       .sort((a, b) => (a.id > b.id ? -1 : 1));
   };
 
   const createTask = async (color: string) => {
+    console.log("user create task", tasks);
     const task = await useCasePost.execute(color);
     setTasks([...tasks, ...task]);
     setFocusNew(true);
   };
+
+  const createTaskRealtime = (task: Task) => {
+    if (tasks.filter((t) => t.id === task.id).length === 0) {
+      setTasks([...tasks, task]);
+      setFocusNew(true);
+    }
+  };
+
+  const updateTaskRealtime = (task: Task) => {
+    console.log("1");
+    const oldTasks = tasks.filter((t) => t.id !== task.id);
+    if (oldTasks.length !== tasks.length) {
+      console.log("2", task);
+      setTasks([...oldTasks, task]);
+      setFocusNew(true);
+    }
+  };
+
+  const deleteTaskRealtime = (id: number) => {
+    setTasks(tasks.filter((t) => t.id !== id));
+  };
+
+  useCaseGetRealtime.execute(
+    createTaskRealtime,
+    updateTaskRealtime,
+    deleteTaskRealtime
+  );
 
   useEffect(() => {
     const getData = async () => {
