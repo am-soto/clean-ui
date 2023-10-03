@@ -4,6 +4,7 @@ import { Colors } from "ui";
 import { useAutoAnimate } from "@formkit/auto-animate/vue";
 import Button from "../components/Button.vue";
 import Card from "../components/Card.vue";
+import SearchBar from "../components/SearchBar.vue";
 import { GetTasksUseCase } from "core";
 import { useTasks } from "../composables/useTasks";
 
@@ -37,7 +38,7 @@ const onShowColorsClick = () => {
       </ul>
     </div>
     <div slot="main">
-      // AQUI BUSCADOR
+      <SearchBar @update="updateFilter" />
       <h1 className="text-5xl">Notas</h1>
       <ul className="flex flex-wrap gap-4 py-2 overflow-auto" ref="parent">
         <li v-for="task in tasks" :key="task.id">
