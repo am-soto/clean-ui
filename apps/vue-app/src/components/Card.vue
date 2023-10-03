@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, defineEmits } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   CardStyles,
   InputStyles,
@@ -45,17 +45,8 @@ const onClickDelete = () => {
     <div ref="cardRef" :class="cardStyles" v-bind="props">
       <!-- Content -->
       <div class="h-full">
-        <input
-          :class="InputStyles"
-          :autofocus="focus"
-          :value="task.title"
-          @input="updateTitle"
-        />
-        <textarea
-          :class="TextareaStyles"
-          :value="task.description"
-          @input="updateDescription"
-        ></textarea>
+        <input :class="InputStyles" :autofocus="focus" :value="task.title" @input="updateTitle" />
+        <textarea :class="TextareaStyles" :value="task.description" @input="updateDescription"></textarea>
       </div>
       <!-- Footer -->
       <div class="flex items-end justify-between font-medium pt-7">
