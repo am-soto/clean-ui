@@ -14,7 +14,7 @@ export class PatchTasksUseCase {
   async execute(props: PatchTaskRequest): Promise<Task[]> {
     const patchTasksRepository = new PatchTasksRepository();
     const getUserRepository = new GetUserRepository();
-    const tasks = await patchTasksRepository.execute(toExact(props, new Array<keyof PatchTaskRequest>));
+    const tasks = await patchTasksRepository.execute({ ...props });
 
     return Promise.all(
       tasks.map(async (t) => {

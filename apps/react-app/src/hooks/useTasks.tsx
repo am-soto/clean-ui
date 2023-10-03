@@ -46,7 +46,11 @@ export const useTasks = () => {
 
   const editTask = async (task: Task) => {
     await useCasePatch.execute({
-      ...task,
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      user_id: task.user?.id,
     });
   };
 

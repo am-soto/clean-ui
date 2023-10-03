@@ -18,33 +18,33 @@ export const useTasks = () => {
   const tasksArray: Ref<Task[]> = ref([]);
   const focusNew: Ref<boolean> = ref(false);
 
-  const getTasks = () => {
-    return tasksArray.value
-      .filter(
-        (task: Task) =>
-          task.title.toLowerCase().includes(filter.value.toLowerCase()) ||
-          task.description.toLowerCase().includes(filter.value.toLowerCase()) ||
-          task.user?.username
-            .toLowerCase()
-            .includes(filter.value.toLowerCase()) ||
-          task.status.toLowerCase().includes(filter.value.toLowerCase())
-      )
-      .sort((a, b) => (a.id > b.id ? -1 : 1));
-  };
-
   const tasks = computed(() => {
-    return tasksArray.value;
+    return tasksArray.value.filter(
+      (task: Task) =>
+        task.title.toLowerCase().includes(filter.value.toLowerCase()) ||
+        task.description.toLowerCase().includes(filter.value.toLowerCase()) ||
+        task.user?.username
+          .toLowerCase()
+          .includes(filter.value.toLowerCase()) ||
+        task.status.toLowerCase().includes(filter.value.toLowerCase())
+    )
+      .sort((a, b) => (a.id > b.id ? -1 : 1));
   });
 
   const createTask = async (color: string) => {
     const task = await useCasePost.execute(color);
-    tasksArray.value = [...tasksArray.value, ...task];
+    //tasksArray.value = await useCaseGet.execute();
+    tasksArray.value = [...task, ...tasksArray.value];
     focusNew.value = true;
   };
 
   const editTask = async (task: Task) => {
     await useCasePatch.execute({
-      ...task,
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      user_id: task.user?.id,
     });
   };
 
@@ -67,7 +67,6 @@ export const useTasks = () => {
 
   return {
     focusNew,
-    getTasks,
     createTask,
     deleteTask,
     updateFilter,
