@@ -8,7 +8,11 @@ export class GetTasksUseCase {
         const tasks = await getTasksRepository.execute();
 
         return Promise.all(tasks.map(async (t) => {
-            return { ...t, user: await getUserRepository.execute(t.user?.id ?? 0)}
+            let user = null;
+            if (t.user?.id !== undefined) {
+                user = await getUserRepository.execute(t.user.id);
+            }
+            return { ...t, user }
         }));
     }
 }

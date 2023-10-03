@@ -20,7 +20,7 @@ export class GetUserRepository implements HttpRepository<number, User | null> {
   }
 }
 
-class GetUserInfrastructureException extends InfrastructureException {}
+class GetUserInfrastructureException extends InfrastructureException { }
 
 class GetUserDTO {
   static fromJSON(
