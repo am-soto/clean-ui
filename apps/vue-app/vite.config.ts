@@ -8,7 +8,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           isCustomElement: (tag) =>
-            ["home-layout", "delete-loading-overlay", "trash-icon"]
+            ["home-layout", "delete-loading-overlay", "trash-icon", 'edit-overlay']
               .map((item) => tag.includes(item))
               .some((t) => t === true),
         },

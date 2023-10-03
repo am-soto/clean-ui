@@ -3,5 +3,6 @@ declare namespace JSX {
     "delete-loading-overlay";
     "trash-icon";
     "home-layout";
+    "edit-overlay";
   }
 }

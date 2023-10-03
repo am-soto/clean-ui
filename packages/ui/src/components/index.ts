@@ -5,3 +5,4 @@ export { TextareaStyles } from "./Textarea";
 export { DeleteLoadingOverlay } from "./DeleteLoadingOverlay";
 export { TrashIcon } from "./TrashIcon";
 export { HomeLayout } from "./Layout";
+export { EditOverlay } from "./EditOverlay";
