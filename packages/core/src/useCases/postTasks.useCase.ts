@@ -1,6 +1,5 @@
 import { Task } from "../domain";
 import {
-  GetTasksRepository,
   GetUserRepository,
   PostTasksRepository,
 } from "../infraestructure";
@@ -15,7 +14,11 @@ export class PostTasksUseCase {
 
     return Promise.all(
       tasks.map(async (t) => {
-        return { ...t, user: await getUserRepository.execute(t.user?.id ?? 0) };
+        let user = null;
+        if (t.user?.id !== undefined) {
+          user = await getUserRepository.execute(t.user.id);
+        }
+        return { ...t, user }
       })
     );
   }

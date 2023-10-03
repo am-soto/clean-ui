@@ -1,4 +1,3 @@
-import { PostgrestError } from "@supabase/supabase-js";
 import { DeleteTasksRepository } from "../infraestructure";
 
 type DeleteInfoResponse = {

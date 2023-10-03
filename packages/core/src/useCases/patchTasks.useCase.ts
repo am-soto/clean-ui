@@ -1,6 +1,7 @@
 import { Task } from "../domain";
 import { Status } from "../domain/task";
 import { GetUserRepository, PatchTasksRepository } from "../infraestructure";
+import { toExact } from "utils";
 
 interface PatchTaskRequest {
   description?: string;
@@ -13,11 +14,15 @@ export class PatchTasksUseCase {
   async execute(props: PatchTaskRequest): Promise<Task[]> {
     const patchTasksRepository = new PatchTasksRepository();
     const getUserRepository = new GetUserRepository();
-    const tasks = await patchTasksRepository.execute({ ...props });
+    const tasks = await patchTasksRepository.execute(toExact(props, new Array<keyof PatchTaskRequest>));
 
     return Promise.all(
       tasks.map(async (t) => {
-        return { ...t, user: await getUserRepository.execute(t.user?.id ?? 0) };
+        let user = null;
+        if (t.user?.id !== undefined) {
+          user = await getUserRepository.execute(t.user.id);
+        }
+        return { ...t, user }
       })
     );
   }
