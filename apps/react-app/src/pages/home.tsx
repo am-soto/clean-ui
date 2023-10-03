@@ -11,6 +11,7 @@ export const Home = () => {
     Object.keys(Colors).filter((item) => item !== "white" && item !== "black")
   );
   const {
+    clientCode,
     focusNew,
     getTasks,
     createTask,
@@ -47,6 +48,7 @@ export const Home = () => {
             getTasks().map((t) => (
               <li key={t.id}>
                 <Card
+                  clientCode={clientCode}
                   focus={focusNew}
                   task={t}
                   onDelete={deleteTask}

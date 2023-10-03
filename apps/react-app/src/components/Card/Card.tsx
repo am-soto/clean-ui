@@ -6,8 +6,10 @@ import {
   InputStyles,
   TextareaStyles,
 } from "ui";
+import { Overlay } from "../Overlay";
 
 type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
+  clientCode: string;
   task: Task;
   focus: boolean;
   onValueChange: (task: Task) => void;
@@ -15,7 +17,7 @@ type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
 };
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ task, onValueChange, onDelete, focus, ...props }, ref) => {
+  ({ clientCode, task, onValueChange, onDelete, focus, ...props }, ref) => {
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(task.title);
     const [description, setDescription] = useState(task.description);
@@ -30,6 +32,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div className="relative">
         {/* Overlay de carga */}
+        <Overlay clientCode={clientCode} task={task} />
         {deleting && <delete-loading-overlay />}
         <div ref={ref} className={CardStyles({ color: task.color })} {...props}>
           {/** Content */}

@@ -5,11 +5,12 @@ import {
 } from "../infraestructure";
 
 export class PostTasksUseCase {
-  async execute(color: string): Promise<Task[]> {
+  async execute(color: string, clientCode: string): Promise<Task[]> {
     const postTasksRepository = new PostTasksRepository();
     const getUserRepository = new GetUserRepository();
     const tasks = await postTasksRepository.execute({
       color,
+      last_client_code: clientCode,
     });
 
     return Promise.all(

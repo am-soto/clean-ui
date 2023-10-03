@@ -10,18 +10,20 @@ import { User } from "../../domain/user";
 
 interface PostTaskRequest {
   color: string;
+  last_client_code: string;
 }
 
 export class PostTasksRepository
   implements HttpRepository<PostTaskRequest, Task[]>
 {
-  async execute({ color }: PostTaskRequest): Promise<Task[]> {
+  async execute({ color, last_client_code }: PostTaskRequest): Promise<Task[]> {
     try {
       const { data } = await supabase
         .from("task")
         .insert([
           {
             color,
+            last_client_code,
             description: "Task description",
             status: "todo",
             title: "New Task",
@@ -36,7 +38,7 @@ export class PostTasksRepository
   }
 }
 
-export class PostTasksInfrastructureException extends InfrastructureException {}
+export class PostTasksInfrastructureException extends InfrastructureException { }
 
 class PostTaskDTO {
   static fromJSON(
@@ -52,6 +54,8 @@ class PostTaskDTO {
         t.status as Status,
         t.color,
         t.created_at ?? "",
+        t.updated_at ?? "",
+        t.last_client_code ?? "",
         t.user_id ? User.create(t.user_id, "", "", "", "", "", "") : null
       )
     );

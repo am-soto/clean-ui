@@ -2,7 +2,7 @@ type AnyFunction = (...args: never[]) => unknown;
 
 export const debounce = <F extends AnyFunction>(
   func: F,
-  delay: number = 500
+  delay: number = 250
 ): ((...args: Parameters<F>) => void) => {
   let timer: ReturnType<typeof setTimeout>;
 

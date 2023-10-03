@@ -11,8 +11,10 @@ export class Task {
     public readonly status: Status,
     public readonly color: string,
     public readonly createdAt: Date,
+    public readonly updatedAt: Date,
+    public readonly clientCode: string,
     public readonly user: User | null
-  ) {}
+  ) { }
 
   static create(
     id: number,
@@ -21,6 +23,8 @@ export class Task {
     status: Status,
     color: string,
     createdAt: string,
+    updatedAt: string,
+    clientCode: string,
     user: User | null
   ) {
     return new Task(
@@ -30,6 +34,8 @@ export class Task {
       status,
       color,
       createdAt === "" ? new Date() : new Date(createdAt),
+      updatedAt === "" ? new Date() : new Date(updatedAt),
+      clientCode,
       user
     );
   }

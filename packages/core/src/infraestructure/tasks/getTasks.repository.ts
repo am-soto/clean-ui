@@ -20,7 +20,7 @@ export class GetTasksRepository implements HttpRepository<void, Task[]> {
   }
 }
 
-class GetTaskInfrastructureException extends InfrastructureException {}
+class GetTaskInfrastructureException extends InfrastructureException { }
 
 class GetTaskDTO {
   static fromJSON(
@@ -36,6 +36,8 @@ class GetTaskDTO {
         t.status as Status,
         t.color,
         t.created_at ?? "",
+        t.updated_at ?? "",
+        t.last_client_code ?? "",
         t.user_id ? User.create(t.user_id, "", "", "", "", "", "") : null
       )
     );

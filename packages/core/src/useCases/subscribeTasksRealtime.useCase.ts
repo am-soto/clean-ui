@@ -16,6 +16,8 @@ export class SubscribeTasksRealtimeUseCase {
                         v.new.status as Status,
                         v.new.color,
                         v.new.created_at ?? "",
+                        v.new.updated_at ?? "",
+                        v.new.last_client_code ?? "",
                         v.new.user_id ? User.create(v.new.user_id, "", "", "", "", "", "") : null
                     ));
             }
@@ -30,6 +32,8 @@ export class SubscribeTasksRealtimeUseCase {
                         v.new.status as Status,
                         v.new.color,
                         v.new.created_at ?? "",
+                        v.new.updated_at ?? "",
+                        v.new.last_client_code ?? "",
                         v.new.user_id ? User.create(v.new.user_id, "", "", "", "", "", "") : null
                     ));
             }

@@ -14,6 +14,7 @@ interface PatchTaskRequest {
   title?: string;
   id: number;
   user_id?: number;
+  last_client_code: string;
 }
 
 export class PatchTasksRepository
@@ -35,7 +36,7 @@ export class PatchTasksRepository
   }
 }
 
-export class PatchTasksInfrastructureException extends InfrastructureException {}
+export class PatchTasksInfrastructureException extends InfrastructureException { }
 
 class PatchTaskDTO {
   static fromJSON(
@@ -51,6 +52,8 @@ class PatchTaskDTO {
         t.status as Status,
         t.color,
         t.created_at ?? "",
+        t.updated_at ?? "",
+        t.last_client_code ?? "",
         t.user_id ? User.create(t.user_id, "", "", "", "", "", "") : null
       )
     );

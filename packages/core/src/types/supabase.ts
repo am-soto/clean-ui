@@ -15,6 +15,7 @@ export interface Database {
           created_at: string
           description: string
           id: number
+          last_client_code: string | null
           status: string
           title: string
           updated_at: string | null
@@ -25,6 +26,7 @@ export interface Database {
           created_at?: string
           description: string
           id?: number
+          last_client_code?: string | null
           status: string
           title: string
           updated_at?: string | null
@@ -35,6 +37,7 @@ export interface Database {
           created_at?: string
           description?: string
           id?: number
+          last_client_code?: string | null
           status?: string
           title?: string
           updated_at?: string | null

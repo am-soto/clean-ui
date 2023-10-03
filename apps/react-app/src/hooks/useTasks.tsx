@@ -7,7 +7,7 @@ import {
   Task,
 } from "core";
 import { useCallback, useEffect, useState } from "react";
-import { debounce } from "utils";
+import { debounce, LocalService, uuidv4 } from "utils";
 
 const useCasePost = new PostTasksUseCase();
 const useCasePatch = new PatchTasksUseCase();
@@ -16,6 +16,7 @@ const useCaseGet = new GetTasksUseCase();
 const useCaseGetRealtime = new SubscribeTasksRealtimeUseCase();
 
 export const useTasks = () => {
+  const [clientCode, setClientCode] = useState("");
   const [filter, setFilter] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [focusNew, setFocusNew] = useState(false);
@@ -36,13 +37,39 @@ export const useTasks = () => {
       .sort((a, b) => (a.id > b.id ? -1 : 1));
   };
 
+  const updateFilter = (filter: string) => {
+    setFilter(filter);
+    setFocusNew(false);
+  };
+
+  // SYNC FUNCTIONS
   const createTask = async (color: string) => {
-    console.log("user create task", tasks);
-    const task = await useCasePost.execute(color);
+    const task = await useCasePost.execute(color, clientCode);
     setTasks([...tasks, ...task]);
     setFocusNew(true);
   };
 
+  const editTask = async (task: Task) => {
+    await useCasePatch.execute({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      user_id: task.user?.id,
+      clientCode: clientCode,
+    });
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceEditTask = useCallback(debounce(editTask), [editTask]);
+
+  const deleteTask = async (task: Task) => {
+    await useCaseDelete.execute(task.id);
+    const response = await useCaseGet.execute();
+    setTasks(response);
+  };
+
+  // REALTIME FUNCTIONS
   const createTaskRealtime = (task: Task) => {
     if (tasks.filter((t) => t.id === task.id).length === 0) {
       setTasks([...tasks, task]);
@@ -51,10 +78,8 @@ export const useTasks = () => {
   };
 
   const updateTaskRealtime = (task: Task) => {
-    console.log("1");
     const oldTasks = tasks.filter((t) => t.id !== task.id);
     if (oldTasks.length !== tasks.length) {
-      console.log("2", task);
       setTasks([...oldTasks, task]);
       setFocusNew(true);
     }
@@ -76,33 +101,16 @@ export const useTasks = () => {
       setTasks(response);
     };
     getData();
+    let clientCode = LocalService.get<string>("client-code");
+    if (clientCode === null) {
+      clientCode = uuidv4();
+      LocalService.set("client-code", clientCode);
+    }
+    setClientCode(clientCode);
   }, []);
 
-  const editTask = async (task: Task) => {
-    await useCasePatch.execute({
-      id: task.id,
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      user_id: task.user?.id,
-    });
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceEditTask = useCallback(debounce(editTask), [editTask]);
-
-  const deleteTask = async (task: Task) => {
-    await useCaseDelete.execute(task.id);
-    const response = await useCaseGet.execute();
-    setTasks(response);
-  };
-
-  const updateFilter = (filter: string) => {
-    setFilter(filter);
-    setFocusNew(false);
-  };
-
   return {
+    clientCode,
     focusNew,
     getTasks,
     createTask,
