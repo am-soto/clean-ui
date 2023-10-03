@@ -6,7 +6,7 @@ import {
   Task,
 } from "core";
 import { useCallback, useEffect, useState } from "react";
-import { debounce } from "../helpers/debounce";
+import { debounce } from "utils";
 
 const useCasePost = new PostTasksUseCase();
 const useCasePatch = new PatchTasksUseCase();

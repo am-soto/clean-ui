@@ -1,4 +1,4 @@
-import { debounce } from "./../../../react-app/src/helpers/debounce";
+import { debounce } from "utils";
 import {
   DeleteTasksUseCase,
   GetTasksUseCase,
@@ -48,7 +48,6 @@ export const useTasks = () => {
     });
   };
 
-  //TODO: cambiar el import debounce
   const debounceEditTask = debounce(editTask);
 
   const deleteTask = async (task: Task) => {

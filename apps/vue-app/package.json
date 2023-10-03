@@ -12,6 +12,7 @@
     "vue": "^3.3.4",
     "core": "*",
     "ui": "*",
+    "utils": "*",
     "@formkit/auto-animate": "^0.8.0"
   },
   "devDependencies": {

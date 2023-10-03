@@ -7,7 +7,6 @@ export {
   DeleteLoadingOverlay,
   TrashIcon,
   HomeLayout,
-  SearchBar,
 } from "./components";
 export { Colors } from "./constants";
 export type { Color } from "./constants";
