@@ -1,7 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "globalEnv": [
+    "VITE_API_SUPABASE_URL",
+    "VITE_API_SUPABASE_KEY"
+  ],
+    "pipeline": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
@@ -11,5 +14,6 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalDotEnv": [".env"]  
 }
