@@ -1,7 +1,6 @@
 import { Task } from "../domain";
 import { Status } from "../domain/task";
 import { GetUserRepository, PatchTasksRepository } from "../infraestructure";
-import { toExact } from "utils";
 
 interface PatchTaskRequest {
   description?: string;
