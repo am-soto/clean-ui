@@ -1,12 +1,12 @@
-<script setup>
-import { ref, computed, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, computed } from "vue";
 import {
   CardStyles,
   InputStyles,
   TextareaStyles,
   ButtonDeleteStyles,
 } from "ui";
-import Overlay from './Overlay.vue'
+import Overlay from "./Overlay.vue";
 
 const emit = defineEmits(["delete", "update"]);
 
@@ -27,14 +27,14 @@ const focusTitle = ref(false);
 
 const cardStyles = computed(() => CardStyles({ color: props.task.color }));
 
-const updateTitle = (event) => {
+const updateTitle = (event: any) => {
   if (isEditable()) {
     const newTitle = event.target.value;
     emit("update", { ...props.task, title: newTitle });
   }
 };
 
-const updateDescription = (event) => {
+const updateDescription = (event: any) => {
   if (isEditable()) {
     const newDescription = event.target.value;
     emit("update", { ...props.task, description: newDescription });
@@ -58,9 +58,8 @@ const isEditable = () => {
 </script>
 
 <template>
-  <div class="relative  ml-[7px] mb-[7px]" @onFocus="() => focusTitle.value = true"
-    @onBlur="() => focusTitle.value = false" :class="focusTitle
-      ? 'outline outline-[#555] rounded-2xl outline-offset-4' : ''">
+  <div class="relative  ml-[7px] mb-[7px]" @onFocus="() => focusTitle = true" @onBlur="() => focusTitle = false" :class="focusTitle
+    ? 'outline outline-[#555] rounded-2xl outline-offset-4' : ''">
     <!-- Overlay de carga -->
     <Overlay :clientCode="clientCode" :task="task" />
     <delete-loading-overlay v-if="deleting" />

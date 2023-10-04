@@ -1,4 +1,3 @@
-import { DomainException } from "../shared/exception";
 import { User } from "./user";
 
 export type Status = "todo" | "doing" | "done";

@@ -5,7 +5,6 @@ const tailwindConfig = require("ui/tailwind.config.js");
 export default {
   ...tailwindConfig,
   content: [
-    "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
     "../../packages/ui/src/**/*.{js,ts,jsx,tsx,styles.ts}",
   ],

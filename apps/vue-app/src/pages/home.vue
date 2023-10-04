@@ -1,15 +1,21 @@
-<script setup>
-import { ref, onMounted, computed } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import { Colors } from "ui";
 import { useAutoAnimate } from "@formkit/auto-animate/vue";
 import Button from "../components/Button.vue";
 import Card from "../components/Card.vue";
 import SearchBar from "../components/SearchBar.vue";
-import { GetTasksUseCase } from "core";
 import { useTasks } from "../composables/useTasks";
 
-const { focusNew, createTask, updateFilter, updateTask, deleteTask, tasks, clientCode } =
-  useTasks();
+const {
+  focusNew,
+  createTask,
+  updateFilter,
+  updateTask,
+  deleteTask,
+  tasks,
+  clientCode,
+} = useTasks();
 
 const colors = ref(
   Object.keys(Colors).filter((item) => item !== "white" && item !== "black")
@@ -27,7 +33,7 @@ const onShowColorsClick = () => {
       <h3>Añadir</h3>
       <Button @click="onShowColorsClick()">&#10010;</Button>
       <ul v-if="showColors" class="pt-4" ref="parent">
-        <li v-for="item in colors" :key="item.id">
+        <li v-for="item in colors" :key="item">
           <button type="button" class="transition-all rounded-full active:scale-110 w-7 h-7" :class="`bg-${item}`"
             @click="createTask(item)" />
         </li>
