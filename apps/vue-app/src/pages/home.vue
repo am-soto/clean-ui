@@ -8,7 +8,6 @@ import SearchBar from "../components/SearchBar.vue";
 import { useTasks } from "../composables/useTasks";
 
 const {
-  focusNew,
   createTask,
   updateFilter,
   updateTask,
