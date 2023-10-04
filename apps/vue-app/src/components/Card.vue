@@ -6,12 +6,17 @@ import {
   TextareaStyles,
   ButtonDeleteStyles,
 } from "ui";
+import Overlay from './Overlay.vue'
 
 const emit = defineEmits(["delete", "update"]);
 
 const props = defineProps({
   task: {
     type: Object,
+    required: true,
+  },
+  clientCode: {
+    type: String,
     required: true,
   },
   focus: Boolean,
@@ -23,24 +28,39 @@ const cardRef = ref(null);
 const cardStyles = computed(() => CardStyles({ color: props.task.color }));
 
 const updateTitle = (event) => {
-  const newTitle = event.target.value;
-  emit("update", { ...props.task, title: newTitle });
+  if (isEditable()) {
+    const newTitle = event.target.value;
+    emit("update", { ...props.task, title: newTitle });
+  }
 };
 
 const updateDescription = (event) => {
-  const newDescription = event.target.value;
-  emit("update", { ...props.task, description: newDescription });
+  if (isEditable()) {
+    const newDescription = event.target.value;
+    emit("update", { ...props.task, description: newDescription });
+  }
 };
 
 const onClickDelete = () => {
   deleting.value = true;
   emit("delete", props.task);
 };
+
+const isEditable = () => {
+  if (props.clientCode !== props.task.clientCode) {
+    const now = new Date();
+    const differenceInSeconds =
+      (now.getTime() - props.task.updatedAt.getTime()) / 1000;
+    return differenceInSeconds > 5;
+  }
+  return true;
+};
 </script>
 
 <template>
   <div class="relative">
     <!-- Overlay de carga -->
+    <Overlay :clientCode="clientCode" :task="task" />
     <delete-loading-overlay v-if="deleting" />
     <div ref="cardRef" :class="cardStyles" v-bind="props">
       <!-- Content -->

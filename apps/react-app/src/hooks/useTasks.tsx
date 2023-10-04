@@ -39,14 +39,14 @@ export const useTasks = () => {
 
   const updateFilter = (filter: string) => {
     setFilter(filter);
-    setFocusNew(false);
+    // setFocusNew(false);
   };
 
   // SYNC FUNCTIONS
   const createTask = async (color: string) => {
     const task = await useCasePost.execute(color, clientCode);
     setTasks([...tasks, ...task]);
-    setFocusNew(true);
+    // setFocusNew(true);
   };
 
   const editTask = async (task: Task) => {
@@ -73,15 +73,17 @@ export const useTasks = () => {
   const createTaskRealtime = (task: Task) => {
     if (tasks.filter((t) => t.id === task.id).length === 0) {
       setTasks([...tasks, task]);
-      setFocusNew(true);
+      // setFocusNew(true);
     }
   };
 
   const updateTaskRealtime = (task: Task) => {
-    const oldTasks = tasks.filter((t) => t.id !== task.id);
-    if (oldTasks.length !== tasks.length) {
-      setTasks([...oldTasks, task]);
-      setFocusNew(true);
+    if (task.clientCode !== LocalService.get("client-code")) {
+      const oldTasks = tasks.filter((t) => t.id !== task.id);
+      if (oldTasks.length !== tasks.length) {
+        setTasks([...oldTasks, task]);
+        // setFocusNew(true);
+      }
     }
   };
 

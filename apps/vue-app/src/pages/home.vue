@@ -8,7 +8,7 @@ import SearchBar from "../components/SearchBar.vue";
 import { GetTasksUseCase } from "core";
 import { useTasks } from "../composables/useTasks";
 
-const { focusNew, createTask, updateFilter, updateTask, deleteTask, tasks } =
+const { focusNew, createTask, updateFilter, updateTask, deleteTask, tasks, clientCode } =
   useTasks();
 
 const colors = ref(
@@ -24,16 +24,12 @@ const onShowColorsClick = () => {
 <template>
   <home-layout>
     <div slot="left-bar">
-      <h3>App</h3>
-      <Button @click="onShowColorsClick()">+</Button>
-      <ul v-if="showColors" class="pt-4">
+      <h3>Añadir</h3>
+      <Button @click="onShowColorsClick()">&#10010;</Button>
+      <ul v-if="showColors" class="pt-4" ref="parent">
         <li v-for="item in colors" :key="item.id">
-          <button
-            type="button"
-            class="rounded-full w-7 h-7 animate__animated animate__fadeInDown"
-            :class="`bg-${item}`"
-            @click="createTask(item)"
-          />
+          <button type="button" class="transition-all rounded-full active:scale-110 w-7 h-7" :class="`bg-${item}`"
+            @click="createTask(item)" />
         </li>
       </ul>
     </div>
@@ -42,12 +38,8 @@ const onShowColorsClick = () => {
       <h1 className="text-5xl">Notas</h1>
       <ul className="flex flex-wrap gap-4 py-2 overflow-auto" ref="parent">
         <li v-for="task in tasks" :key="task.id">
-          <Card
-            :task="task"
-            :focus="focusNew"
-            @delete.once="deleteTask(task)"
-            @update="updateTask"
-          />
+          <Card :clientCode="clientCode" :task="task" :focus="focusNew" @delete.once="deleteTask(task)"
+            @update="updateTask" />
         </li>
       </ul>
     </div>

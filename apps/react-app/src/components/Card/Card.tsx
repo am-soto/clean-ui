@@ -21,14 +21,27 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(task.title);
     const [description, setDescription] = useState(task.description);
+
     const onClickDelete = () => {
       setDeleting(true);
       onDelete(task);
     };
+
     useEffect(() => {
       setTitle(task.title);
       setDescription(task.description);
     }, [task]);
+
+    const isEditable = () => {
+      if (clientCode !== task.clientCode) {
+        const now = new Date();
+        const differenceInSeconds =
+          (now.getTime() - task.updatedAt.getTime()) / 1000;
+        return differenceInSeconds > 5;
+      }
+      return true;
+    };
+
     return (
       <div className="relative">
         {/* Overlay de carga */}
@@ -42,22 +55,26 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
               autoFocus={focus}
               value={title}
               onChange={({ currentTarget }) => {
-                setTitle(currentTarget.value);
-                onValueChange({
-                  ...task,
-                  title: currentTarget.value,
-                });
+                if (isEditable()) {
+                  setTitle(currentTarget.value);
+                  onValueChange({
+                    ...task,
+                    title: currentTarget.value,
+                  });
+                }
               }}
             />
             <textarea
               className={TextareaStyles}
               value={description}
               onChange={({ currentTarget }) => {
-                setDescription(currentTarget.value);
-                onValueChange({
-                  ...task,
-                  description: currentTarget.value,
-                });
+                if (isEditable()) {
+                  setDescription(currentTarget.value);
+                  onValueChange({
+                    ...task,
+                    description: currentTarget.value,
+                  });
+                }
               }}
             />
           </div>

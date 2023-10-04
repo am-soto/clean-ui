@@ -23,16 +23,16 @@ export const Home = () => {
   return (
     <home-layout>
       <div slot="left-bar">
-        <h3>App</h3>
-        <Button onClick={() => setShowColors(!showColors)}>+</Button>
+        <h3>Añadir</h3>
+        <Button onClick={() => setShowColors(!showColors)}>&#10010;</Button>
         {showColors && (
-          <ul className="pt-4">
+          <ul className="pt-4" ref={parent}>
             {colors.map((item) => (
               <li key={item}>
                 {/* TODO: mover a ui */}
                 <button
                   type="button"
-                  className={`w-7 h-7 rounded-full bg-${item} animate__animated animate__fadeInDown`}
+                  className={`w-7 h-7 rounded-full bg-${item} transition-all active:scale-110`}
                   onClick={() => createTask(item)}
                 />
               </li>

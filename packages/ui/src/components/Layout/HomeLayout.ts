@@ -25,11 +25,6 @@ export class HomeLayout extends LitElement {
       flex-direction: column;
       gap: 2.5rem;
       width: 100%;
-
-      @media (min-width: 768px) {
-        padding-left: 5rem;
-        padding-right: 5rem;
-      }
     }
   `;
 

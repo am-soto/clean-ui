@@ -12,14 +12,13 @@ const Overlay = ({ clientCode, task }: OverlayProps) => {
       const now = new Date();
       const differenceInSeconds =
         (now.getTime() - task.updatedAt.getTime()) / 1000;
-      console.log(differenceInSeconds);
       return differenceInSeconds > 5;
     }
     return true;
   };
-  const [time, setTime] = useState(Date.now());
+  const [, setTime] = useState(Date.now());
   useEffect(() => {
-    const interval = setInterval(() => setTime(Date.now()), 1000);
+    const interval = setInterval(() => setTime(Date.now()), 100);
     return () => {
       clearInterval(interval);
     };
