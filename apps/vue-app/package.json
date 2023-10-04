@@ -9,11 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.3.4",
+    "@formkit/auto-animate": "^0.8.0",
+    "animal-avatar-generator": "^1.1.0",
     "core": "*",
     "ui": "*",
     "utils": "*",
-    "@formkit/auto-animate": "^0.8.0"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

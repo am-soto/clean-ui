@@ -10,4 +10,4 @@ export const ButtonStyles = ({ color = Colors.black }: { color?: string }) => {
 };
 
 export const ButtonDeleteStyles =
-  "flex items-center justify-center w-8 h-8 transition-all duration-100 ease-in-out scale-100 bg-white rounded-full hover:shadow-lg hover:border-black hover:scale-105";
+  "flex items-center justify-center w-8 h-8 transition-all duration-100 ease-in-out scale-100 bg-white rounded-full hover:shadow-lg hover:border-black hover:scale-110";

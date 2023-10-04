@@ -7,6 +7,8 @@ import {
   TextareaStyles,
 } from "ui";
 import { Overlay } from "../Overlay";
+import avatar from "animal-avatar-generator";
+import { LocalService } from "utils";
 
 type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
   clientCode: string;
@@ -18,8 +20,8 @@ type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ clientCode, task, onValueChange, onDelete, ...props }, ref) => {
     const [deleting, setDeleting] = useState(false);
-    const [title, setTitle] = useState(task.title);
-    const [description, setDescription] = useState(task.description);
+    const [internalTask, setInternalTask] = useState(task);
+    const [isEditedbyMe, setIsEditedbyMe] = useState(true);
 
     const onClickDelete = () => {
       setDeleting(true);
@@ -27,9 +29,19 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     };
 
     useEffect(() => {
-      setTitle(task.title);
-      setDescription(task.description);
+      setInternalTask({
+        ...task,
+        title: task.title,
+        description: task.description,
+      });
+      setIsEditedbyMe(task.clientCode === LocalService.get("client-code"));
     }, [task]);
+
+    useEffect(() => {
+      setIsEditedbyMe(
+        internalTask.clientCode === LocalService.get("client-code")
+      );
+    }, [internalTask]);
 
     const isEditable = () => {
       if (clientCode !== task.clientCode) {
@@ -63,10 +75,15 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
               className={InputStyles}
               aria-label="input title"
               maxLength={20}
-              value={title}
+              value={internalTask.title}
               onChange={({ currentTarget }) => {
                 if (isEditable()) {
-                  setTitle(currentTarget.value);
+                  // setTitle(currentTarget.value);
+                  setInternalTask({
+                    ...task,
+                    title: currentTarget.value,
+                    clientCode: LocalService.get("client-code") ?? "",
+                  });
                   onValueChange({
                     ...task,
                     title: currentTarget.value,
@@ -76,14 +93,20 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             />
             <textarea
               className={TextareaStyles}
-              value={description}
+              value={internalTask.description}
               aria-label="input description"
               onChange={({ currentTarget }) => {
                 if (isEditable()) {
-                  setDescription(currentTarget.value);
+                  // setDescription(currentTarget.value);
+                  setInternalTask({
+                    ...task,
+                    description: currentTarget.value,
+                    clientCode: LocalService.get("client-code") ?? "",
+                  });
                   onValueChange({
                     ...task,
                     description: currentTarget.value,
+                    clientCode: LocalService.get("client-code") ?? "",
                   });
                 }
               }}
@@ -92,8 +115,18 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
           {/** Footer */}
           <div className="flex items-end justify-between font-medium pt-7">
-            {/* {task.createdAt.toLocaleString("ES")} */}
-            Editado por: {task.clientCode}
+            {isEditedbyMe ? (
+              <span className="text-[#555]">Editada por ti</span>
+            ) : (
+              <img
+                className="transition-all scale-100 rounded-full outline outline-2 outline-offset-2 hover:scale-150 hover:outline-none"
+                height="32"
+                width="32"
+                src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                  avatar(task.clientCode, { size: 100 }).trim()
+                )}`}
+              />
+            )}
             <button onClick={onClickDelete} className={ButtonDeleteStyles}>
               <trash-icon />
             </button>
