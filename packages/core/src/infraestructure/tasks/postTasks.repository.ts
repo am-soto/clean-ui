@@ -24,9 +24,9 @@ export class PostTasksRepository
           {
             color,
             last_client_code,
-            description: "Task description",
+            description: "Descripción de la nota",
             status: "todo",
-            title: "New Task",
+            title: "Nueva Nota",
           },
         ])
         .select();
@@ -38,7 +38,7 @@ export class PostTasksRepository
   }
 }
 
-export class PostTasksInfrastructureException extends InfrastructureException { }
+export class PostTasksInfrastructureException extends InfrastructureException {}
 
 class PostTaskDTO {
   static fromJSON(
