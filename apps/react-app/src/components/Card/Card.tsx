@@ -11,13 +11,12 @@ import { Overlay } from "../Overlay";
 type CardProps = ButtonHTMLAttributes<HTMLDivElement> & {
   clientCode: string;
   task: Task;
-  focus: boolean;
   onValueChange: (task: Task) => void;
   onDelete: (task: Task) => void;
 };
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ clientCode, task, onValueChange, onDelete, focus, ...props }, ref) => {
+  ({ clientCode, task, onValueChange, onDelete, ...props }, ref) => {
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(task.title);
     const [description, setDescription] = useState(task.description);
@@ -42,8 +41,18 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       return true;
     };
 
+    const [focusTitle, setFocusTitle] = useState<boolean>(false);
+
     return (
-      <div className="relative">
+      <div
+        className={`relative z-50 ml-[7px] mb-[7px] ${
+          focusTitle
+            ? "outline outline-[#555] rounded-2xl outline-offset-4"
+            : ""
+        }`}
+        onFocus={() => setFocusTitle(true)}
+        onBlur={() => setFocusTitle(false)}
+      >
         {/* Overlay de carga */}
         <Overlay clientCode={clientCode} task={task} />
         {deleting && <delete-loading-overlay />}
@@ -52,7 +61,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           <div className="h-full">
             <input
               className={InputStyles}
-              autoFocus={focus}
+              aria-label="input title"
+              maxLength={20}
               value={title}
               onChange={({ currentTarget }) => {
                 if (isEditable()) {
@@ -67,6 +77,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             <textarea
               className={TextareaStyles}
               value={description}
+              aria-label="input description"
               onChange={({ currentTarget }) => {
                 if (isEditable()) {
                   setDescription(currentTarget.value);
@@ -81,7 +92,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
           {/** Footer */}
           <div className="flex items-end justify-between font-medium pt-7">
-            {task.createdAt.toLocaleString("ES")}
+            {/* {task.createdAt.toLocaleString("ES")} */}
+            Editado por: {task.clientCode}
             <button onClick={onClickDelete} className={ButtonDeleteStyles}>
               <trash-icon />
             </button>

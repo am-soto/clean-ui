@@ -4,7 +4,8 @@ export class HomeLayout extends LitElement {
   static styles = css`
     .layout {
       display: flex;
-      height: 100vh;
+      overflow: hidden;
+      height: 99.9vh;
     }
 
     .left-bar {
@@ -12,19 +13,16 @@ export class HomeLayout extends LitElement {
       padding: 1.25rem;
       text-align: center;
       border-right: 1px solid;
-    }
-
-    // TODO: revisar
-    .left-bar > ul {
-      padding-top: 20px;
+      overflow: hidden;
+      margin-right: 2rem;
     }
 
     .main {
       display: flex;
-      padding: 1.25rem;
       flex-direction: column;
       gap: 2.5rem;
       width: 100%;
+      overflow: auto;
     }
   `;
 

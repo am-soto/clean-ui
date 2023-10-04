@@ -19,11 +19,11 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  focus: Boolean,
 });
 
 const deleting = ref(false);
 const cardRef = ref(null);
+const focusTitle = ref(false);
 
 const cardStyles = computed(() => CardStyles({ color: props.task.color }));
 
@@ -58,15 +58,18 @@ const isEditable = () => {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative  ml-[7px] mb-[7px]" @onFocus="() => focusTitle.value = true"
+    @onBlur="() => focusTitle.value = false" :class="focusTitle
+      ? 'outline outline-[#555] rounded-2xl outline-offset-4' : ''">
     <!-- Overlay de carga -->
     <Overlay :clientCode="clientCode" :task="task" />
     <delete-loading-overlay v-if="deleting" />
     <div ref="cardRef" :class="cardStyles" v-bind="props">
       <!-- Content -->
       <div class="h-full">
-        <input :class="InputStyles" :autofocus="focus" :value="task.title" @input="updateTitle" />
-        <textarea :class="TextareaStyles" :value="task.description" @input="updateDescription"></textarea>
+
+        <input :class="InputStyles" :value="task.title" @input="updateTitle" :maxLength="20" />
+        <textarea :class="TextareaStyles" :value="task.description" @input="updateDescription" />
       </div>
       <!-- Footer -->
       <div class="flex items-end justify-between font-medium pt-7">

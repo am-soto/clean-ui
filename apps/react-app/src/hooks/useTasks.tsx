@@ -19,7 +19,6 @@ export const useTasks = () => {
   const [clientCode, setClientCode] = useState("");
   const [filter, setFilter] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [focusNew, setFocusNew] = useState(false);
 
   const getTasks = () => {
     return tasks
@@ -39,14 +38,12 @@ export const useTasks = () => {
 
   const updateFilter = (filter: string) => {
     setFilter(filter);
-    // setFocusNew(false);
   };
 
   // SYNC FUNCTIONS
   const createTask = async (color: string) => {
     const task = await useCasePost.execute(color, clientCode);
     setTasks([...tasks, ...task]);
-    // setFocusNew(true);
   };
 
   const editTask = async (task: Task) => {
@@ -61,7 +58,12 @@ export const useTasks = () => {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceEditTask = useCallback(debounce(editTask), [editTask]);
+  const debounceEditTask = useCallback(debounce(editTask, 100), [editTask]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceCreateTask = useCallback(debounce(createTask, 250), [
+    createTask,
+  ]);
 
   const deleteTask = async (task: Task) => {
     await useCaseDelete.execute(task.id);
@@ -82,7 +84,6 @@ export const useTasks = () => {
       const oldTasks = tasks.filter((t) => t.id !== task.id);
       if (oldTasks.length !== tasks.length) {
         setTasks([...oldTasks, task]);
-        // setFocusNew(true);
       }
     }
   };
@@ -113,9 +114,8 @@ export const useTasks = () => {
 
   return {
     clientCode,
-    focusNew,
     getTasks,
-    createTask,
+    createTask: debounceCreateTask,
     deleteTask,
     updateFilter,
     updateTask: debounceEditTask,

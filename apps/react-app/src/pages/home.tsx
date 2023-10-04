@@ -12,7 +12,6 @@ export const Home = () => {
   );
   const {
     clientCode,
-    focusNew,
     getTasks,
     createTask,
     updateFilter,
@@ -49,7 +48,6 @@ export const Home = () => {
               <li key={t.id}>
                 <Card
                   clientCode={clientCode}
-                  focus={focusNew}
                   task={t}
                   onDelete={deleteTask}
                   onValueChange={updateTask}

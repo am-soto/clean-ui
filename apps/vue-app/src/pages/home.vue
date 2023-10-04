@@ -38,8 +38,7 @@ const onShowColorsClick = () => {
       <h1 className="text-5xl">Notas</h1>
       <ul className="flex flex-wrap gap-4 py-2 overflow-auto" ref="parent">
         <li v-for="task in tasks" :key="task.id">
-          <Card :clientCode="clientCode" :task="task" :focus="focusNew" @delete.once="deleteTask(task)"
-            @update="updateTask" />
+          <Card :clientCode="clientCode" :task="task" @delete.once="deleteTask(task)" @update="updateTask" />
         </li>
       </ul>
     </div>

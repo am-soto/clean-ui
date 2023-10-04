@@ -18,7 +18,6 @@ const useCaseGetRealtime = new SubscribeTasksRealtimeUseCase();
 export const useTasks = () => {
   const filter: Ref<string> = ref("");
   const tasksArray: Ref<Task[]> = ref([]);
-  const focusNew: Ref<boolean> = ref(false);
   const clientCode: Ref<string> = ref("");
 
   const tasks = computed(() => {
@@ -38,7 +37,6 @@ export const useTasks = () => {
   const createTask = async (color: string) => {
     const task = await useCasePost.execute(color, clientCode.value);
     tasksArray.value = [...task, ...tasksArray.value];
-    // focusNew.value = true;
   };
 
   const editTask = async (task: Task) => {
@@ -52,7 +50,9 @@ export const useTasks = () => {
     });
   };
 
-  const debounceEditTask = debounce(editTask);
+  const debounceEditTask = debounce(editTask, 100);
+
+  const debounceCreateTask = debounce(createTask, 250);
 
   const deleteTask = async (task: Task) => {
     await useCaseDelete.execute(task.id);
@@ -62,7 +62,6 @@ export const useTasks = () => {
 
   const updateFilter = (value: string) => {
     filter.value = value;
-    // focusNew.value = false;
   };
 
   // REALTIME FUNCTIONS
@@ -102,8 +101,7 @@ export const useTasks = () => {
   });
 
   return {
-    focusNew,
-    createTask,
+    createTask: debounceCreateTask,
     deleteTask,
     updateFilter,
     updateTask: debounceEditTask,
