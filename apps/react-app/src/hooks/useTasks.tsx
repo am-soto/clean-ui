@@ -19,7 +19,7 @@ export const useTasks = () => {
   const [clientCode, setClientCode] = useState("");
   const [filter, setFilter] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [focusNew, setFocusNew] = useState(false);
+  const [focusNew] = useState(false);
 
   const getTasks = () => {
     return tasks

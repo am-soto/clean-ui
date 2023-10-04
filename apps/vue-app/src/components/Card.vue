@@ -1,12 +1,12 @@
-<script setup>
-import { ref, computed, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, computed } from "vue";
 import {
   CardStyles,
   InputStyles,
   TextareaStyles,
   ButtonDeleteStyles,
 } from "ui";
-import Overlay from './Overlay.vue'
+import Overlay from "./Overlay.vue";
 
 const emit = defineEmits(["delete", "update"]);
 
@@ -27,14 +27,14 @@ const cardRef = ref(null);
 
 const cardStyles = computed(() => CardStyles({ color: props.task.color }));
 
-const updateTitle = (event) => {
+const updateTitle = (event: any) => {
   if (isEditable()) {
     const newTitle = event.target.value;
     emit("update", { ...props.task, title: newTitle });
   }
 };
 
-const updateDescription = (event) => {
+const updateDescription = (event: any) => {
   if (isEditable()) {
     const newDescription = event.target.value;
     emit("update", { ...props.task, description: newDescription });
@@ -65,8 +65,17 @@ const isEditable = () => {
     <div ref="cardRef" :class="cardStyles" v-bind="props">
       <!-- Content -->
       <div class="h-full">
-        <input :class="InputStyles" :autofocus="focus" :value="task.title" @input="updateTitle" />
-        <textarea :class="TextareaStyles" :value="task.description" @input="updateDescription"></textarea>
+        <input
+          :class="InputStyles"
+          :autofocus="focus"
+          :value="task.title"
+          @input="updateTitle"
+        />
+        <textarea
+          :class="TextareaStyles"
+          :value="task.description"
+          @input="updateDescription"
+        ></textarea>
       </div>
       <!-- Footer -->
       <div class="flex items-end justify-between font-medium pt-7">
