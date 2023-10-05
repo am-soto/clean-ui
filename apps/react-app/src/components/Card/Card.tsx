@@ -115,18 +115,17 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
           {/** Footer */}
           <div className="flex items-end justify-between font-medium pt-7">
-            {isEditedbyMe ? (
-              <span className="text-[#555]">Editada por ti</span>
-            ) : (
-              <img
-                className="transition-all scale-100 rounded-full outline outline-2 outline-offset-2 hover:scale-150 hover:outline-none"
-                height="32"
-                width="32"
-                src={`data:image/svg+xml;utf8,${encodeURIComponent(
-                  avatar(task.clientCode, { size: 100 }).trim()
-                )}`}
-              />
-            )}
+            <img
+              className={`transition-all scale-100 rounded-full  ${
+                isEditedbyMe &&
+                "outline outline-2 outline-offset-2 hover:outline-none"
+              } hover:scale-150`}
+              height="32"
+              width="32"
+              src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                avatar(internalTask.clientCode, { size: 100 }).trim()
+              )}`}
+            />
             <button onClick={onClickDelete} className={ButtonDeleteStyles}>
               <trash-icon />
             </button>

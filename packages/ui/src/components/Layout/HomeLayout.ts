@@ -10,11 +10,12 @@ export class HomeLayout extends LitElement {
 
     .left-bar {
       display: flex;
-      padding: 1.25rem;
+      padding: 1rem;
+      width: 100px;
       text-align: center;
+      justify-content: center;
       border-right: 1px solid;
       overflow: hidden;
-      margin-right: 2rem;
     }
 
     .main {
@@ -23,6 +24,7 @@ export class HomeLayout extends LitElement {
       gap: 2.5rem;
       width: 100%;
       overflow: auto;
+      padding: 1rem;
     }
   `;
 

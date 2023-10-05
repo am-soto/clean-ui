@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import {
   CardStyles,
   InputStyles,
@@ -26,23 +26,24 @@ const props = defineProps({
 const deleting = ref(false);
 const cardRef = ref(null);
 const focusTitle = ref(false);
-const isEditedByMe = ref(false);
+const internalTask = ref(props.task)
+
 
 const cardStyles = computed(() => CardStyles({ color: props.task.color }));
 
 const updateTitle = (event: any) => {
   if (isEditable()) {
     const newTitle = event.target.value;
-    emit("update", { ...props.task, title: newTitle });
-    isEditedByMe.value = true
+    internalTask.value = { ...props.task, title: newTitle, clientCode: LocalService.get("client-code") ?? "", }
+    emit("update", internalTask.value);
   }
 };
 
 const updateDescription = (event: any) => {
   if (isEditable()) {
     const newDescription = event.target.value;
-    emit("update", { ...props.task, description: newDescription });
-    isEditedByMe.value = true
+    internalTask.value = { ...props.task, description: newDescription, clientCode: LocalService.get("client-code") ?? "", }
+    emit("update", internalTask.value);
   }
 };
 
@@ -61,10 +62,10 @@ const isEditable = () => {
   return true;
 };
 
-watch(() => props.task, () => {
-  isEditedByMe.value = props.task.clientCode === LocalService.get("client-code")
-});
+const isEditedByMe = computed(() => {
+  return internalTask.value.clientCode === LocalService.get("client-code")
 
+})
 </script>
 
 <template>
@@ -76,16 +77,15 @@ watch(() => props.task, () => {
     <div ref="cardRef" :class="cardStyles" v-bind="props">
       <!-- Content -->
       <div class="h-full">
-        <input :class="InputStyles" :value="task.title" @input="updateTitle" :maxLength="20" />
-        <textarea :class="TextareaStyles" :value="task.description" @input="updateDescription" />
+        <input :class="InputStyles" :value="internalTask.title" @input="updateTitle" :maxLength="20" />
+        <textarea :class="TextareaStyles" :value="internalTask.description" @input="updateDescription" />
       </div>
       <!-- Footer -->
       <div class="flex items-end justify-between font-medium pt-7">
-        <span v-if="isEditedByMe">Editada por ti</span>
-        <img v-else :src="`data:image/svg+xml;utf8,${encodeURIComponent(
-          avatar(task.clientCode, { size: 100 }).trim()
-        )}`" height="32" width="32"
-          class="transition-all scale-100 rounded-full outline outline-2 outline-offset-2 hover:scale-150 hover:outline-none" />
+        <img :src="`data:image/svg+xml;utf8,${encodeURIComponent(
+          avatar(internalTask.clientCode, { size: 100 }).trim()
+        )}`" height="32" width="32" class="transition-all scale-100 rounded-full hover:scale-150" :class="` ${isEditedByMe && 'outline outline-2 outline-offset-2 hover:outline-none'
+  } `" />
         <button @click="onClickDelete()" :class="ButtonDeleteStyles">
           <trash-icon />
         </button>
