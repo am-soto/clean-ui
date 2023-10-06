@@ -12,6 +12,7 @@
     "@formkit/auto-animate": "^0.8.0",
     "animal-avatar-generator": "^1.1.0",
     "core": "*",
+    "fun-animal-names": "^0.1.1",
     "ui": "*",
     "utils": "*",
     "vue": "^3.3.4"

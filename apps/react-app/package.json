@@ -13,6 +13,7 @@
     "@formkit/auto-animate": "^0.8.0",
     "animal-avatar-generator": "^1.1.0",
     "core": "*",
+    "fun-animal-names": "^0.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ui": "*",

@@ -7,6 +7,7 @@ import Card from "../components/Card.vue";
 import SearchBar from "../components/SearchBar.vue";
 import { useTasks } from "../composables/useTasks";
 import avatar from "animal-avatar-generator";
+import { funAnimalName } from "fun-animal-names";
 
 const {
   createTask,
@@ -46,6 +47,7 @@ const onShowColorsClick = () => {
           made with <span>🥚</span>
         </span>
         <span className="text-sm text-center font-bold ">by web-ones</span>
+        <span className="text-xs text-center">&copy; 2023</span>
       </div>
     </div>
     <div slot="main">
@@ -58,7 +60,9 @@ const onShowColorsClick = () => {
           <img :src="`data:image/svg+xml;utf8,${encodeURIComponent(
             avatar(clientCode, { size: 100 }).trim()
           )}`" height="100" width="100" class="w-20 rounded-full md:w-24" />
-          <span className="font-bold">Tú Perfil</span>
+          <span class="font-bold text-center">
+            {{ funAnimalName(clientCode) }}
+          </span>
         </div>
       </div>
       <ul className="flex flex-wrap gap-4 py-2 overflow-auto" ref="parent">

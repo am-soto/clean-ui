@@ -4,6 +4,7 @@ import { Colors } from "ui";
 import { useTasks } from "../hooks/useTasks";
 import { Button, Card, SearchBar } from "../components";
 import avatar from "animal-avatar-generator";
+import { funAnimalName } from "fun-animal-names";
 
 export const Home = () => {
   const [parent] = useAutoAnimate();
@@ -48,6 +49,7 @@ export const Home = () => {
             made with <span>🥚</span>
           </span>
           <span className="text-sm font-bold text-center">by web-ones</span>
+          <span className="text-xs text-center">&copy; 2023</span>
         </div>
       </div>
       <div slot="main">
@@ -65,7 +67,9 @@ export const Home = () => {
                 avatar(clientCode, { size: 100 }).trim()
               )}`}
             />
-            <span className="font-bold">Tú Perfil</span>
+            <span className="font-bold text-center">
+              {funAnimalName(clientCode)}
+            </span>
           </div>
         </div>
         <ul className="flex flex-wrap gap-4 py-2 overflow-auto" ref={parent}>
