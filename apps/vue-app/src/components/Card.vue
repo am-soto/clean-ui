@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import {
   CardStyles,
   InputStyles,
@@ -29,12 +29,12 @@ const focusTitle = ref(false);
 const internalTask = ref(props.task)
 
 
-const cardStyles = computed(() => CardStyles({ color: props.task.color }));
+const cardStyles = computed(() => CardStyles({ color: internalTask.value.color }));
 
 const updateTitle = (event: any) => {
   if (isEditable()) {
     const newTitle = event.target.value;
-    internalTask.value = { ...props.task, title: newTitle, clientCode: LocalService.get("client-code") ?? "", }
+    internalTask.value = { ...internalTask.value, title: newTitle, clientCode: LocalService.get("client-code") ?? "", }
     emit("update", internalTask.value);
   }
 };
@@ -42,7 +42,7 @@ const updateTitle = (event: any) => {
 const updateDescription = (event: any) => {
   if (isEditable()) {
     const newDescription = event.target.value;
-    internalTask.value = { ...props.task, description: newDescription, clientCode: LocalService.get("client-code") ?? "", }
+    internalTask.value = { ...internalTask.value, description: newDescription, clientCode: LocalService.get("client-code") ?? "", }
     emit("update", internalTask.value);
   }
 };
@@ -66,10 +66,15 @@ const isEditedByMe = computed(() => {
   return internalTask.value.clientCode === LocalService.get("client-code")
 
 })
+
+watch(() => props.task, (newTask, _) => {
+  internalTask.value = newTask
+});
+
 </script>
 
 <template>
-  <div class="relative  ml-[7px] mb-[7px]" @onFocus="() => focusTitle = true" @onBlur="() => focusTitle = false" :class="focusTitle
+  <div class="relative  ml-[7px] mb-[7px]" @focusin="() => focusTitle = true" @focusout="() => focusTitle = false" :class="focusTitle
     ? 'outline outline-[#555] rounded-2xl outline-offset-4' : ''">
     <!-- Overlay de carga -->
     <Overlay :clientCode="clientCode" :task="task" />

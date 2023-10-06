@@ -1,8 +1,5 @@
 import { Task } from "../domain";
-import {
-  GetUserRepository,
-  PostTasksRepository,
-} from "../infraestructure";
+import { GetUserRepository, PostTasksRepository } from "../infrastructure";
 
 export class PostTasksUseCase {
   async execute(color: string, clientCode: string): Promise<Task[]> {
@@ -19,7 +16,7 @@ export class PostTasksUseCase {
         if (t.user?.id !== undefined) {
           user = await getUserRepository.execute(t.user.id);
         }
-        return { ...t, user }
+        return { ...t, user };
       })
     );
   }

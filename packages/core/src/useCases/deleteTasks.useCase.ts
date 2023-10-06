@@ -1,4 +1,4 @@
-import { DeleteTasksRepository } from "../infraestructure";
+import { DeleteTasksRepository } from "../infrastructure";
 
 type DeleteInfoResponse = {
   success: boolean;

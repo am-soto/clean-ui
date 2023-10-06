@@ -1,3 +1,3 @@
 export * from "./src/domain";
-export * from "./src/infraestructure";
+export * from "./src/infrastructure";
 export * from "./src/useCases";

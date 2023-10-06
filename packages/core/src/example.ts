@@ -1,4 +1,4 @@
-import { GetTasksRepository } from "./infraestructure";
+import { GetTasksRepository } from "./infrastructure";
 import {
   GetTasksUseCase,
   PostTasksUseCase,

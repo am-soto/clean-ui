@@ -80,13 +80,14 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 if (isEditable()) {
                   // setTitle(currentTarget.value);
                   setInternalTask({
-                    ...task,
+                    ...internalTask,
                     title: currentTarget.value,
                     clientCode: LocalService.get("client-code") ?? "",
                   });
                   onValueChange({
-                    ...task,
+                    ...internalTask,
                     title: currentTarget.value,
+                    clientCode: LocalService.get("client-code") ?? "",
                   });
                 }
               }}
@@ -99,12 +100,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 if (isEditable()) {
                   // setDescription(currentTarget.value);
                   setInternalTask({
-                    ...task,
+                    ...internalTask,
                     description: currentTarget.value,
                     clientCode: LocalService.get("client-code") ?? "",
                   });
                   onValueChange({
-                    ...task,
+                    ...internalTask,
                     description: currentTarget.value,
                     clientCode: LocalService.get("client-code") ?? "",
                   });
